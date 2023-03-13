@@ -42,6 +42,7 @@ const quizQuestions = [
 export default function Question() {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [quizQuestionItem, setQuizQuestionItem] = useState(quizQuestions[0]);
+  const [userAnswer, setUserAnswer] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
 
   const handleChange = event => {
@@ -51,17 +52,29 @@ export default function Question() {
       answer: event.target.value,
     };
 
-    const answers = [...userAnswers, answer];
-    setUserAnswers(answers);
-    sessionStorage.setItem("user-answers", JSON.stringify(answers));
+    setUserAnswer(answer);
+  };
+
+  const handleNextButton = event => {
+    event.preventDefault();
+
+    if (!userAnswer) {
+      alert("Choose an answer");
+      return;
+    }
 
     let number = questionNumber + 1;
     if (number >= quizQuestions.length) {
       number = 0;
     }
 
+    const answers = [...userAnswers, userAnswer];
+    setUserAnswers(answers);
+    sessionStorage.setItem("user-answers", JSON.stringify(answers));
+
     setQuestionNumber(number);
     setQuizQuestionItem(quizQuestions[number]);
+    setUserAnswer(null);
   };
 
   return (
@@ -81,6 +94,9 @@ export default function Question() {
               {answer}
             </label>
           ))}
+          <button className={styles.button} onClick={handleNextButton}>
+            Next question
+          </button>
         </fieldset>
       </form>
     </section>

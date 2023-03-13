@@ -42,3 +42,17 @@
     font-weight: 600;
   }
 }
+
+
+.button{
+  padding: 5px 0;
+
+  background-color: whitesmoke;
+  cursor: pointer;
+
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover, &:focus{
+      background-color: aqua;
+    }
+}
